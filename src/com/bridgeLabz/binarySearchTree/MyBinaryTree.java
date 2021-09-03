@@ -1,9 +1,9 @@
 package com.bridgeLabz.binarySearchTree;
 
-public class MyBinaryTree<K extends Comparable <K>> {
+public class MyBinaryTree<K extends Comparable<K>> {
 
 	MyBinaryNode<K> root;
-	
+
 	public void add(K key) {
 		this.root = this.addRecursively(root, key);
 	}
@@ -13,47 +13,64 @@ public class MyBinaryTree<K extends Comparable <K>> {
 		if (current == null) {
 			return new MyBinaryNode<>(key);
 		}
-		
+
 		int result = key.compareTo(current.key);
 		if (result == 0) {
 			return current;
 		}
-		
+
 		if (result < 0) {
 			current.left = addRecursively(current.left, key);
-		}
-		else {
+		} else {
 			current.right = addRecursively(current.right, key);
 		}
-		
+
 		return current;
 	}
-	
+
 	public K getKey() {
 		return root.key;
 	}
-	
+
 	public K getLeft() {
 		return root.left.key;
 	}
-	
+
 	public K getRight() {
 		return root.right.key;
 	}
-	
+
 	public int getSize() {
-		return getSizeRecursive(root); 
+		return getSizeRecursive(root);
 	}
 
 	private int getSizeRecursive(MyBinaryNode<K> current) {
-		
+
+		if (current == null) {
+			return 0;
+		} else {
+			return 1 + getSizeRecursive(current.left) + getSizeRecursive(current.right);
+		}
+
+	}
+
+	public int search(K key) {
+		return searchRecursive(root, key);
+	}
+	
+
+	private int searchRecursive(MyBinaryNode<K> current, K key) {
+
 		if (current == null) {
 			return 0;
 		}
-		else {
-			return 1 + getSizeRecursive(current.left) + getSizeRecursive(current.right);
-		}
 		
+		if (current.key.equals(key)) {
+			return 1;
+		} else {
+			return searchRecursive(current.left, key) + searchRecursive(current.right, key);
+		}
+
 	}
-	
+
 }
